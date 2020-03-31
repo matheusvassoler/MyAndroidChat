@@ -1,6 +1,5 @@
-package br.com.havebreak.active_chat
+package br.com.havebreak.activeChat
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.TextView
 import br.com.havebreak.R
 import br.com.havebreak.model.Contact
 import br.com.havebreak.model.Message
-import java.util.logging.Logger
 
 class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, var messageList: List<Message>) : BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

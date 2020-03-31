@@ -1,17 +1,19 @@
-package br.com.havebreak.active_chat
+package br.com.havebreak.activeChat
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ListView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import br.com.havebreak.R
+import br.com.havebreak.login.LoginActivity
 import br.com.havebreak.model.Contact
 import kotlinx.android.synthetic.main.activity_active_chat.*
-import kotlin.math.log
 
 class ActiveChatActivity : AppCompatActivity() {
     private lateinit var viewModel: ActiveViewModel
@@ -44,5 +46,21 @@ class ActiveChatActivity : AppCompatActivity() {
             viewModel.getMessageList(loggedContact, contactToChat)
             txtMessage.setText("")
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.activity_active_chat_list_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemId: Int = item.itemId
+        if(itemId == R.id.activity_active_chat_list_menu_exit) {
+            val intent:Intent = Intent(this, LoginActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

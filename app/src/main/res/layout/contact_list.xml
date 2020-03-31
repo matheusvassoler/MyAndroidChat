@@ -11,7 +11,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Matheue"
-        android:layout_margin="20dp"/>
+        android:textSize="16sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@android:color/black"
+        tools:text="Matheue"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

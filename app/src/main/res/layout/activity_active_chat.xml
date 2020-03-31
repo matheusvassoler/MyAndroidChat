@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_active_chat"
-    tools:context=".active_chat.ActiveChatActivity">
+    tools:context=".activeChat.ActiveChatActivity">
 
     <ListView
         android:id="@+id/activity_active_chat_listView"

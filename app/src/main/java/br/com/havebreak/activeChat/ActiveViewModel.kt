@@ -1,4 +1,4 @@
-package br.com.havebreak.active_chat
+package br.com.havebreak.activeChat
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
