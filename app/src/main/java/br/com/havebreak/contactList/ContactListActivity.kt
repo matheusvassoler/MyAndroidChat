@@ -3,12 +3,14 @@ package br.com.havebreak.contactList
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import br.com.havebreak.R
+import br.com.havebreak.active_chat.ActiveChatActivity
 import br.com.havebreak.model.Contact
 import kotlinx.android.synthetic.main.activity_contact_list.*
 
@@ -33,5 +35,13 @@ class ContactListActivity : AppCompatActivity() {
         })
 
         viewModel.getContactList()
+
+        contactListView.setOnItemClickListener { parent, view, position, id ->
+            val contact:Contact = parent.getItemAtPosition(position) as Contact
+            var intent: Intent = Intent(ContactListActivity@this, ActiveChatActivity::class.java) as Intent
+            intent.putExtra("LOGGED_CONTACT", contactLogged)
+            intent.putExtra("CONTACT_TO_CHAT", contact)
+            startActivity(intent)
+        }
     }
 }

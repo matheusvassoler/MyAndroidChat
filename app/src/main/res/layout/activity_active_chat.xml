@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_active_chat"
+    tools:context=".active_chat.ActiveChatActivity">
+
+    <ListView
+        android:id="@+id/activity_active_chat_listView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/activity_active_chat_input_new_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/my_message"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
+
+    <EditText
+        android:id="@+id/activity_active_chat_input_new_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:background="@drawable/edit_text_send_message"
+        android:hint="Digite uma mensagem"
+        android:padding="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/activity_button_send_message"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/activity_button_send_message"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_margin="6dp"
+        app:cardBackgroundColor="#128C7E"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_send_message" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
