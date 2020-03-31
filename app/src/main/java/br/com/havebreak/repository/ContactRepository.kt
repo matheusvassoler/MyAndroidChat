@@ -12,6 +12,10 @@ class ContactRepository {
         var incrementedId:Int = 1
     }
 
+    fun getContactList(): List<Contact> {
+        return ArrayList<Contact>(contactList)
+    }
+
     fun login(username: String, password: String): Contact? {
         for (contact in contactList) {
             if(contact.username.equals(username) && contact.password.equals(password)) {
