@@ -13,13 +13,13 @@ import kotlinx.android.synthetic.main.my_message.view.*
 import kotlinx.android.synthetic.main.their_message.view.*
 import org.w3c.dom.Text
 
-class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, var messageList: List<Message>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, var messageList: List<Message>) : RecyclerView.Adapter<AbstractViewHolder>() {
     companion object {
         val TYPE_MY_MESSAGE = 1
         val TYPE_THEIR_MESSAGE = 2
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
         val view:View
 
         if(viewType == TYPE_MY_MESSAGE) {
@@ -35,14 +35,9 @@ class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, 
         return messageList.count()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message:Message = messageList.get(position)
-
-        if(getItemViewType(position) == TYPE_MY_MESSAGE) {
-            (holder as MyMessageViewHolder).bindValues(message)
-        } else {
-            (holder as TheirMessageViewHolder).bindValues(message)
-        }
+    override fun onBindViewHolder(holder: AbstractViewHolder, position: Int) {
+        val message:Message = messageList[position]
+        holder.bind(message)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -54,18 +49,18 @@ class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, 
         }
     }
 
-    class MyMessageViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class MyMessageViewHolder(itemView: View): AbstractViewHolder(itemView) {
         private val txtMessage:TextView = itemView.my_message_message
 
-        fun bindValues(message: Message) {
+        override fun bind(message: Message) {
             txtMessage.text = message.text
         }
     }
 
-    class TheirMessageViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class TheirMessageViewHolder(itemView: View): AbstractViewHolder(itemView) {
         private val txtMessage:TextView = itemView.their_message_message
 
-        fun bindValues(message: Message) {
+        override fun bind(message: Message) {
             txtMessage.text = message.text
         }
     }
