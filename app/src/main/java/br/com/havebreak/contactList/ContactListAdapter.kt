@@ -5,34 +5,41 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import br.com.havebreak.R
 import br.com.havebreak.model.Contact
+import kotlinx.android.synthetic.main.contact_list.view.*
 
-class ContactListAdapter(var contactList: List<Contact>?, var loggedUserId: Long) : BaseAdapter() {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var contact:Contact = contactList!!.get(position)
-        var view:View = LayoutInflater.from(parent!!.context).inflate(R.layout.contact_list, parent, false)
+class ContactListAdapter(var contacts: List<Contact>, var contactLoggedId: Long, val onItemClickListener: (contact:Contact) -> Unit): RecyclerView.Adapter<ContactListAdapter.ViewHolder>() {
 
-        var name:TextView = view.findViewById(R.id.contact_list_contact_name)
-        if(contact.id != loggedUserId) {
-            name.text = contact.name
-        } else {
-            name.text = contact.name + " (Você)"
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view:View = LayoutInflater.from(parent.context).inflate(R.layout.contact_list, parent, false);
+        return ViewHolder(view, onItemClickListener)
+    }
+
+    override fun getItemCount(): Int {
+        return contacts.count()
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        var contact:Contact = contacts.get(position)
+        holder.bindValues(contact, contactLoggedId)
+    }
+
+    class ViewHolder(itemView: View, private val onItemClickListener: (contact: Contact) -> Unit): RecyclerView.ViewHolder(itemView) {
+        private val contactNameTxt:TextView = itemView.contact_list_contact_name
+
+        fun bindValues(contact: Contact, contactLoggedId: Long) {
+            if(contact.id == contactLoggedId) {
+                contactNameTxt.text = contact.name + " (Você)"
+            } else {
+                contactNameTxt.text = contact.name
+            }
+
+            itemView.setOnClickListener {
+                onItemClickListener(contact)
+            }
         }
-
-        return view
-    }
-
-    override fun getItem(position: Int): Any {
-        return contactList!!.get(position)
-    }
-
-    override fun getItemId(position: Int): Long {
-        return contactList!!.get(position).id
-    }
-
-    override fun getCount(): Int {
-        return contactList!!.count()
     }
 
 }

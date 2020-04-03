@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import android.widget.ListView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.havebreak.R
 import br.com.havebreak.activeChat.ActiveChatActivity
 import br.com.havebreak.login.LoginActivity
@@ -27,24 +30,23 @@ class ContactListActivity : AppCompatActivity() {
         var intent: Intent = intent as Intent
         var contactLogged:Contact = intent.getSerializableExtra("LOGGED_CONTACT") as Contact
 
-        var contactListView:ListView = activity_contact_listView as ListView
+        var contactListView:RecyclerView = activity_contact_list_recyclerView as RecyclerView
 
         viewModel = ViewModelProviders.of(this).get(ContactListViewModel::class.java)
         viewModel.contactList.observe(this, Observer {
             contactListView.apply {
-                adapter = ContactListAdapter(it, contactLogged.id)
+                adapter = ContactListAdapter(it, contactLogged.id) {
+                    val contact:Contact = it
+                    var intent: Intent = Intent(this@ContactListActivity, ActiveChatActivity::class.java) as Intent
+                    intent.putExtra("LOGGED_CONTACT", contactLogged)
+                    intent.putExtra("CONTACT_TO_CHAT", contact)
+                    startActivity(intent)
+                }
+                layoutManager = LinearLayoutManager(this@ContactListActivity)
             }
         })
 
         viewModel.getContactList()
-
-        contactListView.setOnItemClickListener { parent, view, position, id ->
-            val contact:Contact = parent.getItemAtPosition(position) as Contact
-            var intent: Intent = Intent(ContactListActivity@this, ActiveChatActivity::class.java) as Intent
-            intent.putExtra("LOGGED_CONTACT", contactLogged)
-            intent.putExtra("CONTACT_TO_CHAT", contact)
-            startActivity(intent)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
