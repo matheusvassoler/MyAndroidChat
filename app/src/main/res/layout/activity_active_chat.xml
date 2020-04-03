@@ -7,7 +7,7 @@
     android:background="@drawable/background_active_chat"
     tools:context=".activeChat.ActiveChatActivity">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_active_chat_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -15,9 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/my_message"
-        android:divider="@null"
-        android:dividerHeight="0dp"/>
+        tools:listitem="@layout/my_message" />
 
     <EditText
         android:id="@+id/activity_active_chat_input_new_message"

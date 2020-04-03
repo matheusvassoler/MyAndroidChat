@@ -10,6 +10,8 @@ import android.widget.ListView
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.havebreak.R
 import br.com.havebreak.login.LoginActivity
 import br.com.havebreak.model.Contact
@@ -28,12 +30,13 @@ class ActiveChatActivity : AppCompatActivity() {
 
         setTitle(contactToChat.name)
 
-        val messageListView:ListView = activity_active_chat_listView as ListView
+        val messageListView:RecyclerView = activity_active_chat_listView as RecyclerView
 
         viewModel = ViewModelProviders.of(this).get(ActiveViewModel::class.java)
         viewModel.messageList.observe(this, Observer {
             messageListView.apply {
                 adapter = ActiveChatAdapter(loggedContact, contactToChat, it)
+                layoutManager = LinearLayoutManager(this@ActiveChatActivity)
             }
         })
 
