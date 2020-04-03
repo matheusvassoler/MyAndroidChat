@@ -9,7 +9,9 @@ class ContactRepository {
         var contactList:List<Contact> = ArrayList<Contact>(Arrays.asList(
             Contact(1, "Matheus", "matheus", "123"),
             Contact(2, "Lucas", "lucas", "123"),
-            Contact(3, "Rose", "rose", "123")
+            Contact(3, "Rose", "rose", "123"),
+            Contact(4, "Letícia", "leticia", "123"),
+            Contact(5, "Ana", "ana", "123")
         ))
         var incrementedId:Int = 1
     }
