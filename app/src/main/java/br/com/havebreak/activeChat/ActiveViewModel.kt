@@ -16,7 +16,8 @@ class ActiveViewModel: ViewModel() {
     }
 
     fun createMessage(messageText:String, loggedContact:Contact, contactToChat: Contact) {
-        var message:Message = Message(messageText, loggedContact, contactToChat)
+        val epochTime = System.currentTimeMillis() / 1000
+        var message:Message = Message(messageText, loggedContact, contactToChat, epochTime)
         messageRepository.createMessage(message)
     }
 }

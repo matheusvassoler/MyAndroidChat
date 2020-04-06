@@ -1,9 +1,9 @@
 package br.com.havebreak.activeChat
 
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.havebreak.R
@@ -11,7 +11,7 @@ import br.com.havebreak.model.Contact
 import br.com.havebreak.model.Message
 import kotlinx.android.synthetic.main.my_message.view.*
 import kotlinx.android.synthetic.main.their_message.view.*
-import org.w3c.dom.Text
+import java.util.*
 
 class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, var messageList: List<Message>) : RecyclerView.Adapter<AbstractViewHolder>() {
     companion object {
@@ -51,9 +51,33 @@ class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, 
 
     class MyMessageViewHolder(itemView: View): AbstractViewHolder(itemView) {
         private val txtMessage:TextView = itemView.my_message_message
+        private val txtMessageTime:TextView = itemView.my_message_time
+        val calendar = Calendar.getInstance()
 
         override fun bind(message: Message) {
+            val timeEpoch = Date(message.dateTime * 1000L)
+            calendar.time = timeEpoch
+
             txtMessage.text = message.text
+
+            if(DateFormat.is24HourFormat(itemView.context)) {
+                var hour = calendar.get(Calendar.HOUR_OF_DAY)
+                var minute = calendar.get(Calendar.MINUTE)
+                val timeFormatted = String.format("%02d:%02d", hour, minute)
+                txtMessageTime.text = timeFormatted
+            } else {
+                var hour = calendar.get(Calendar.HOUR)
+                var minute = calendar.get(Calendar.MINUTE)
+                var timeFormatted = String.format("%02d:%02d", hour, minute)
+
+                if(calendar.get(Calendar.AM_PM) == 0) {
+                    timeFormatted = timeFormatted + "AM"
+                } else if (calendar.get(Calendar.AM_PM) == 1) {
+                    timeFormatted = timeFormatted + "PM"
+                }
+
+                txtMessageTime.text = timeFormatted
+            }
         }
     }
 
