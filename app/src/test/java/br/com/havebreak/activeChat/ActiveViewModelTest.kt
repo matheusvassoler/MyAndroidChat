@@ -1,20 +1,24 @@
 package br.com.havebreak.activeChat
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.havebreak.model.Contact
 import br.com.havebreak.model.Message
 import br.com.havebreak.repository.MessageRepository
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.hasItem
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.contains
 import org.hamcrest.Matchers.hasSize
-import org.junit.Assert.*
+import org.junit.Assert.assertThat
+import org.junit.Assert.fail
+import org.junit.Rule
 import org.junit.Test
-import java.lang.RuntimeException
+import org.junit.rules.TestRule
 import org.hamcrest.CoreMatchers.`is` as Is
 
+
 class ActiveViewModelTest {
+
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
 
     @Test
     fun mustNot_SendMessage_WhenFieldMessageIsEmpty() {
@@ -153,5 +157,37 @@ class ActiveViewModelTest {
 
         assertThat(listOfSentMessagesBetweenUserOneAndThree, hasSize(0))
         assertThat(listOfSentMessagesBetweenUserTwoAndThree, hasSize(0))
+    }
+
+    @Test
+    fun must_IndicateThatMessageWasReadByRecipient_WhenRecipientReadTheMessage() {
+        var activeViewModel = ActiveViewModel()
+        val messageRepository = MessageRepository()
+        MessageRepository.messageList = ArrayList<Message>()
+
+        var contactSender = Contact(1, "Matheus", "matheus", "123")
+        var contactRecipient = Contact(2, "Lucas", "lucas", "123")
+        var messageText = "Olá Lucas! Tudo bem?"
+
+        activeViewModel.createMessage(messageText, contactSender, contactRecipient, 1586226450L)
+        activeViewModel.getMessageList(contactRecipient, contactSender)
+
+        assertThat(activeViewModel.messageList.value?.get(0)?.messageWasRead, Is(equalTo(true)))
+    }
+
+    @Test
+    fun mustNot_IndicateThatMessageWasRead_WhenSenderSendMessageAndRecipientNotReadYet() {
+        var activeViewModel = ActiveViewModel()
+        val messageRepository = MessageRepository()
+        MessageRepository.messageList = ArrayList<Message>()
+
+        var contactSender = Contact(1, "Matheus", "matheus", "123")
+        var contactRecipient = Contact(2, "Lucas", "lucas", "123")
+        var messageText = "Olá Lucas! Tudo bem?"
+
+        activeViewModel.createMessage(messageText, contactSender, contactRecipient, 1586226450L)
+        activeViewModel.getMessageList(contactSender, contactRecipient)
+
+        assertThat(activeViewModel.messageList.value?.get(0)?.messageWasRead, Is(equalTo(false)))
     }
 }

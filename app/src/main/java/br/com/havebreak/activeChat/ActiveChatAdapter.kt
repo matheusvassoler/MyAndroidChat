@@ -1,15 +1,19 @@
 package br.com.havebreak.activeChat
 
+import android.graphics.drawable.Drawable
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import br.com.havebreak.R
 import br.com.havebreak.model.Contact
 import br.com.havebreak.model.Message
 import br.com.havebreak.util.DateUtil
+import br.com.havebreak.util.DrawableUtil
 import kotlinx.android.synthetic.main.my_message.view.*
 import kotlinx.android.synthetic.main.their_message.view.*
 import java.util.*
@@ -53,18 +57,22 @@ class ActiveChatAdapter(var loggedContact: Contact, var contactToChat: Contact, 
     class MyMessageViewHolder(itemView: View): AbstractViewHolder(itemView) {
         private val txtMessage:TextView = itemView.my_message_message
         private val txtMessageTime:TextView = itemView.my_message_time
+        private val txtMessageCheck:ImageView = itemView.my_message_check
         val calendar = Calendar.getInstance()
 
         override fun bind(message: Message) {
             val epochTimestampSeconds = DateUtil.convertEpochTimestampSecondsToDate(message.dateTime)
             calendar.time = epochTimestampSeconds
 
-
             val smartphoneIsIn24HourFormat = DateFormat.is24HourFormat(itemView.context)
             val formattedHour = DateUtil.formatHour(calendar, smartphoneIsIn24HourFormat)
 
+            val messageWasRead = message.messageWasRead
+            val imageDrawable: Drawable? = DrawableUtil.getDrawableMessageCheck(itemView.context, messageWasRead)
+
             txtMessage.text = message.text
             txtMessageTime.text = formattedHour
+            txtMessageCheck.setImageDrawable(imageDrawable)
         }
     }
 

@@ -15,6 +15,11 @@ class ActiveViewModel: ViewModel() {
 
     fun getMessageList(contactLogged:Contact, contactToChat:Contact) {
         val messageList:List<Message> = messageRepository.getMessageListBetweenTwoContacts(contactLogged, contactToChat)
+        for (message in messageList) {
+            if(message.sender.id != contactLogged.id) {
+                message.messageWasRead = true
+            }
+        }
         this.messageList.value = messageList
     }
 
