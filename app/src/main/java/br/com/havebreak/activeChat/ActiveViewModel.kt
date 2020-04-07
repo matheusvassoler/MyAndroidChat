@@ -19,6 +19,9 @@ class ActiveViewModel: ViewModel() {
     }
 
     fun createMessage(messageText:String, loggedContact:Contact, contactToChat: Contact, epochTimestampSeconds: Long) {
+        var messageText = messageText
+        messageText = messageText.trim()
+
         if(messageText.equals("")) {
             throw RuntimeException("Mensagem não pode ser vazia")
         }
