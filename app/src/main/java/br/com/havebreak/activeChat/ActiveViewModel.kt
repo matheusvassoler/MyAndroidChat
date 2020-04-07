@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import br.com.havebreak.model.Contact
 import br.com.havebreak.model.Message
 import br.com.havebreak.repository.MessageRepository
+import br.com.havebreak.util.DateUtil
+import java.lang.Exception
+import java.lang.RuntimeException
 
 class ActiveViewModel: ViewModel() {
     val messageRepository: MessageRepository = MessageRepository()
@@ -15,9 +18,11 @@ class ActiveViewModel: ViewModel() {
         this.messageList.value = messageList
     }
 
-    fun createMessage(messageText:String, loggedContact:Contact, contactToChat: Contact) {
-        val epochTime = System.currentTimeMillis() / 1000
-        var message:Message = Message(messageText, loggedContact, contactToChat, epochTime)
+    fun createMessage(messageText:String, loggedContact:Contact, contactToChat: Contact, epochTimestampSeconds: Long) {
+        if(messageText.equals("")) {
+            throw RuntimeException("Mensagem não pode ser vazia")
+        }
+        var message:Message = Message(messageText, loggedContact, contactToChat, epochTimestampSeconds)
         messageRepository.createMessage(message)
     }
 }

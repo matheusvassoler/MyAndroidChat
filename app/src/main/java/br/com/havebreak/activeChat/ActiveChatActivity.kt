@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.havebreak.R
 import br.com.havebreak.login.LoginActivity
 import br.com.havebreak.model.Contact
+import br.com.havebreak.util.DateUtil
 import kotlinx.android.synthetic.main.activity_active_chat.*
+import java.lang.RuntimeException
 
 class ActiveChatActivity : AppCompatActivity() {
     private lateinit var viewModel: ActiveViewModel
@@ -45,7 +47,12 @@ class ActiveChatActivity : AppCompatActivity() {
         val buttonSendMessage:CardView = activity_button_send_message as CardView
         buttonSendMessage.setOnClickListener {
             val txtMessage:EditText = activity_active_chat_input_new_message as EditText
-            viewModel.createMessage(txtMessage.text.toString(), loggedContact, contactToChat)
+            val epochTimestampSeconds = DateUtil.getActualEpochTimestampSeconds()
+            try {
+                viewModel.createMessage(txtMessage.text.toString(), loggedContact, contactToChat, epochTimestampSeconds)
+            } catch (exception: RuntimeException) {
+
+            }
             viewModel.getMessageList(loggedContact, contactToChat)
             txtMessage.setText("")
         }
