@@ -16,6 +16,7 @@ import br.com.havebreak.activeChat.ActiveChatActivity
 import br.com.havebreak.login.LoginActivity
 import br.com.havebreak.model.Contact
 import kotlinx.android.synthetic.main.activity_contact_list.*
+import java.util.*
 
 class ContactListActivity : AppCompatActivity() {
 
@@ -35,6 +36,9 @@ class ContactListActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ContactListViewModel::class.java)
         viewModel.contactList.observe(this, Observer {
             contactListView.apply {
+
+                Collections.sort(it)
+
                 adapter = ContactListAdapter(it, contactLogged.id) {
                     val contact:Contact = it
                     var intent: Intent = Intent(this@ContactListActivity, ActiveChatActivity::class.java) as Intent
